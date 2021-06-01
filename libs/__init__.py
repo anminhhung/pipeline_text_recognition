@@ -1,0 +1,1 @@
+from libs.craft.detector import CRAFT_DETECTOR
