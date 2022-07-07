@@ -1,4 +1,7 @@
 import os 
+import numpy as np 
+import cv2
+from PIL import Image, ImageDraw, ImageFont
 
 def create_output(image_name, bbox, result_text, result_dir):
     x_min = bbox[0]

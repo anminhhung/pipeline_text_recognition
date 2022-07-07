@@ -1,9 +1,9 @@
 import cv2
 import time 
+import os 
 
 from vietocr.tool.predictor import Predictor
 from vietocr.tool.config import Cfg
-from shapely.geometry import Polygon
 
 from libs import CRAFT_DETECTOR
 from utils.create_output_file import create_output
@@ -42,11 +42,21 @@ def predict_image(image_path, result_dir="dataset/results"):
 
         result_text = TEXT_RECOGNIZER.predict(crop_image)
 
-        # write text
-        create_output(image_name, bbox, result_text, result_dir)
+        # visualize 
+        # result_dir = "dataset/result_images"
+        # visual_image(image, bbox, result_text, result_dir)
+        # visual_image_path = os.path.join(result_dir, image_name + ".jpg")
+        
 
         # visualize
-        # image_visual = TEXT_DETECTOR.visualize_box_text(image_visual, bbox, result_text)
+        image_visual = TEXT_DETECTOR.visualize_box_text(image_visual, bbox, result_text)
+
+    result_dir = "dataset/result_images"
+    if not os.path.exists(result_dir):
+        os.mkdir(result_dir)
+        
+    visual_image_path = os.path.join(result_dir, image_name + ".jpg")
+    cv2.imshow(visual_image_path, image_visual)
 
     print("Time process: ", time.time() - time_start)
 
