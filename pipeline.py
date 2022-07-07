@@ -23,7 +23,7 @@ config = Cfg.load_config_from_name('vgg_transformer')
 config['weights'] = vietocr_weight_path
 config['cnn']['pretrained']=False
 # config['device'] = 'cuda:0' 
-config['device'] = 'cpu' 
+config['device'] = CFG["device"]["device"]
 config['predictor']['beamsearch']=False
 
 TEXT_RECOGNIZER= Predictor(config)
@@ -54,7 +54,7 @@ def predict_image(image_path, result_dir="dataset/results"):
     result_dir = "dataset/result_images"
     if not os.path.exists(result_dir):
         os.mkdir(result_dir)
-        
+
     visual_image_path = os.path.join(result_dir, image_name + ".jpg")
     cv2.imshow(visual_image_path, image_visual)
 
