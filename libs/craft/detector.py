@@ -80,6 +80,13 @@ class CRAFT_DETECTOR(object):
         return im_pil
     
     def visualize_box_text(self, image, bbox, text, color_box=(0, 255, 255), color_text=(0, 0, 255)):
+        height, width, _ = image.shape
+        x_min = max(0, bbox[0])
+        x_max = min(bbox[1], width)
+        y_min = max(0, bbox[2])
+        y_max = min(bbox[3], height)
+
+        bbox = [x_min, y_min, x_max, y_max]
         image = cv2.rectangle(image, (bbox[0], bbox[1]), (bbox[2], bbox[3]), color_box, 1)
 
         image = cv2.putText(image, text, (bbox[0], bbox[1]), \

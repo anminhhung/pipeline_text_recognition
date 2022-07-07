@@ -1,6 +1,7 @@
 import cv2
 import time 
 import os 
+import numpy as np
 
 from vietocr.tool.predictor import Predictor
 from vietocr.tool.config import Cfg
@@ -38,15 +39,14 @@ def predict_image(image_path, result_dir="dataset/results"):
     horizontal_list, free_list = TEXT_DETECTOR.readtext(image)
 
     for bbox in horizontal_list:
-        crop_image = TEXT_DETECTOR.crop_image(image, bbox)
+        crop_pil_image = TEXT_DETECTOR.crop_image(image, bbox)
 
-        result_text = TEXT_RECOGNIZER.predict(crop_image)
+        result_text = TEXT_RECOGNIZER.predict(crop_pil_image)
 
         # visualize 
-        # result_dir = "dataset/result_images"
-        # visual_image(image, bbox, result_text, result_dir)
-        # visual_image_path = os.path.join(result_dir, image_name + ".jpg")
-        
+        result_dir = "dataset/result_images"
+        crop_image_cv2 = cv2.cvtColor(np.array(crop_pil_image), cv2.COLOR_RGB2BGR)
+        cv2.imwrite(os.path.join(result_dir, result_text + ".jpg"), crop_image_cv2)
 
         # visualize
         image_visual = TEXT_DETECTOR.visualize_box_text(image_visual, bbox, result_text)
@@ -56,7 +56,7 @@ def predict_image(image_path, result_dir="dataset/results"):
         os.mkdir(result_dir)
 
     visual_image_path = os.path.join(result_dir, image_name + ".jpg")
-    cv2.imshow(visual_image_path, image_visual)
+    cv2.imwrite(visual_image_path, image_visual)
 
     print("Time process: ", time.time() - time_start)
 
