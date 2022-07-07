@@ -8,3 +8,5 @@ pyyaml==5.4.1
 vietocr==0.3.5
 shapely==1.7.1
 gdown==3.11.0
+glob
+tqdm==

@@ -2,6 +2,8 @@ import cv2
 import time 
 import os 
 import numpy as np
+import glob
+from tqdm import tqdm
 
 from vietocr.tool.predictor import Predictor
 from vietocr.tool.config import Cfg
@@ -61,5 +63,8 @@ def predict_image(image_path, result_dir="dataset/results"):
     print("Time process: ", time.time() - time_start)
 
 if __name__ == "__main__":
-    image_path = "dataset/images/demo.png"
-    predict_image(image_path)
+    root_dir = "dataset/images"
+    list_image_path = glob.glob(os.path.join(root_dir, '*.jpg'))
+    for i in tqdm(range(list_image_path)):
+        image_path = list_image_path[i]
+        predict_image(image_path)
