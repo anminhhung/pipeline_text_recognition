@@ -2,7 +2,7 @@ import cv2
 import time 
 import os 
 import numpy as np
-import glob
+import glob2
 from tqdm import tqdm
 
 from vietocr.tool.predictor import Predictor
@@ -46,9 +46,9 @@ def predict_image(image_path, result_dir="dataset/results"):
         result_text = TEXT_RECOGNIZER.predict(crop_pil_image)
 
         # visualize 
-        result_dir = "dataset/result_images"
-        crop_image_cv2 = cv2.cvtColor(np.array(crop_pil_image), cv2.COLOR_RGB2BGR)
-        cv2.imwrite(os.path.join(result_dir, result_text + ".jpg"), crop_image_cv2)
+        # result_dir = "dataset/result_images"
+        # crop_image_cv2 = cv2.cvtColor(np.array(crop_pil_image), cv2.COLOR_RGB2BGR)
+        # cv2.imwrite(os.path.join(result_dir, result_text + ".jpg"), crop_image_cv2)
 
         # visualize
         image_visual = TEXT_DETECTOR.visualize_box_text(image_visual, bbox, result_text)
@@ -60,11 +60,11 @@ def predict_image(image_path, result_dir="dataset/results"):
     visual_image_path = os.path.join(result_dir, image_name + ".jpg")
     cv2.imwrite(visual_image_path, image_visual)
 
-    print("Time process: ", time.time() - time_start)
+    # print("Time process: ", time.time() - time_start)
 
 if __name__ == "__main__":
     root_dir = "dataset/images"
-    list_image_path = glob.glob(os.path.join(root_dir, '*.jpg'))
-    for i in tqdm(range(list_image_path)):
+    list_image_path = glob2.glob(os.path.join(root_dir, '*.jpg'))
+    for i in tqdm(range(len(list_image_path))):
         image_path = list_image_path[i]
         predict_image(image_path)
